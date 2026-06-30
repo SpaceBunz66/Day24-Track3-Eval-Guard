@@ -6,6 +6,9 @@ import os
 import subprocess
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 
 def check(label: str, condition: bool, detail: str = "") -> bool:
     icon = "✓" if condition else "✗"

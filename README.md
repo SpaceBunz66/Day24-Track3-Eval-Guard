@@ -1,4 +1,4 @@
-# Lab 24 — Production Eval + Guardrail Stack
+Lab 24 — Production Eval + Guardrail Stack
 
 Chào mừng các bạn đến với **Day 24**! 🎉
 
@@ -41,7 +41,9 @@ Sau lab này, các bạn sẽ có một **complete eval + guardrail stack** có 
 ```bash
 # Copy toàn bộ src/ từ Day 18 của bạn vào đây
 cp -r <đường-dẫn-Day18>/src/m*.py src/
+copy -r D:/2A202600573-NguyenThaiHoang-Day18/src/m*.py src/
 cp <đường-dẫn-Day18>/src/pipeline.py src/
+copy D:/2A202600573-NguyenThaiHoang-Day18/src/pipeline.py src/
 ```
 
 > **Lưu ý:** M4 (`m4_eval.py`) của bạn cần đã implement xong `evaluate_ragas()` —
@@ -117,11 +119,11 @@ Day24-Track3-Eval-Guard/
 
 Chạy RAGAS trên **50 câu hỏi** với **3 distributions** để tìm ra điểm yếu của pipeline.
 
-| Distribution | Số câu | Đặc điểm |
-|---|---|---|
-| `factual` | 20 | Tra cứu chính sách đơn giản, 1 tài liệu |
-| `multi_hop` | 20 | Kết hợp nhiều tài liệu, tính toán, suy luận |
-| `adversarial` | 10 | Bẫy: version conflicts (v2023 vs v2024), negation traps |
+| Distribution    | Số câu | Đặc điểm                                             |
+| --------------- | -------- | -------------------------------------------------------- |
+| `factual`     | 20       | Tra cứu chính sách đơn giản, 1 tài liệu          |
+| `multi_hop`   | 20       | Kết hợp nhiều tài liệu, tính toán, suy luận      |
+| `adversarial` | 10       | Bẫy: version conflicts (v2023 vs v2024), negation traps |
 
 **4 tasks cần implement:** `group_by_distribution()` → `run_ragas_50q()` → `bottom_10()` → `cluster_analysis()`
 
@@ -192,6 +194,7 @@ python check_lab.py
 ```
 
 Checklist:
+
 - [ ] Day 18 source files đã copy vào `src/`
 - [ ] `answers_50q.json` đã được generate
 - [ ] 0 TODOs còn lại trong `src/phase_*.py`
@@ -214,12 +217,12 @@ Checklist:
 
 ## Điểm số
 
-| Phase | Điểm |
-|---|---|
-| Phase A: RAGAS (Tasks 1–4) | 30 |
-| Phase B: Judge (Tasks 5–8) | 35 |
-| Phase C: Guard (Tasks 9–12 + blueprint) | 35 |
-| **Tổng** | **100** |
+| Phase                                                         | Điểm        |
+| ------------------------------------------------------------- | ------------- |
+| Phase A: RAGAS (Tasks 1–4)                                   | 30            |
+| Phase B: Judge (Tasks 5–8)                                   | 35            |
+| Phase C: Guard (Tasks 9–12 + blueprint)                      | 35            |
+| **Tổng**                                               | **100** |
 | Bonus (κ>0.6, pass rate≥18/20, adversarial avg<factual avg) | **+10** |
 
 Chi tiết xem thêm: [`RUBRIC.md`](RUBRIC.md)

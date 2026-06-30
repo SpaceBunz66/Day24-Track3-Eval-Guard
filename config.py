@@ -7,7 +7,23 @@ load_dotenv()
 
 # --- API Keys ---
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENROUTER_API_KEY = (
+    os.getenv("OPENROUTER_API_KEY", "")
+    or os.getenv("OPENROUTE_API_KEY", "")
+)
 HF_TOKEN = os.getenv("HF_TOKEN", "")  # Optional: for HuggingFace models
+
+# --- Chat model provider ---
+LLM_PROVIDER = os.getenv(
+    "LLM_PROVIDER",
+    "openrouter",
+).lower()
+OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+DEFAULT_CHAT_MODEL = os.getenv(
+    "DEFAULT_CHAT_MODEL",
+    OPENROUTER_MODEL if LLM_PROVIDER == "openrouter" else "gpt-4o-mini",
+)
 
 # --- Qdrant (same as Day 18) ---
 QDRANT_HOST = "localhost"
@@ -38,7 +54,23 @@ ADVERSARIAL_SET_PATH = os.path.join(os.path.dirname(__file__), "adversarial_set_
 GUARDRAILS_CONFIG_DIR = os.path.join(os.path.dirname(__file__), "guardrails")
 
 # --- LLM Judge ---
-JUDGE_MODEL = "gpt-4o-mini"
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", DEFAULT_CHAT_MODEL)
+
+
+def active_llm_api_key() -> str:
+    """Return the API key for the selected chat provider."""
+    if LLM_PROVIDER == "openrouter":
+        return OPENROUTER_API_KEY or OPENAI_API_KEY
+    return OPENAI_API_KEY
+
+
+def openai_client_kwargs() -> dict:
+    """Return kwargs for the OpenAI SDK, including OpenRouter base_url."""
+    api_key = active_llm_api_key()
+    kwargs = {"api_key": api_key} if api_key else {}
+    if LLM_PROVIDER == "openrouter":
+        kwargs["base_url"] = OPENROUTER_BASE_URL
+    return kwargs
 
 # --- Guardrail latency budget ---
 LATENCY_BUDGET_P95_MS = 500  # target: full guard stack P95 < 500ms
